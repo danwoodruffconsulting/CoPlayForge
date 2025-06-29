@@ -1,0 +1,22 @@
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="64" cy="64" r="60" fill="#2E4057" stroke="#1A2633" stroke-width="4"/>
+  
+  <!-- Shield shape -->
+  <path d="M32 40 L64 24 L96 40 L96 70 Q96 85 64 100 Q32 85 32 70 Z" fill="#4A90E2" stroke="#2E4057" stroke-width="2"/>
+  
+  <!-- Sword -->
+  <rect x="60" y="30" width="8" height="50" fill="#C0392B" transform="rotate(15 64 55)"/>
+  <rect x="58" y="25" width="12" height="8" fill="#E74C3C" transform="rotate(15 64 29)"/>
+  
+  <!-- Battle formation dots -->
+  <circle cx="45" cy="60" r="3" fill="#F39C12"/>
+  <circle cx="55" cy="65" r="3" fill="#F39C12"/>
+  <circle cx="73" cy="65" r="3" fill="#F39C12"/>
+  <circle cx="83" cy="60" r="3" fill="#F39C12"/>
+  
+  <!-- Connection lines showing synergy -->
+  <line x1="45" y1="60" x2="55" y2="65" stroke="#F39C12" stroke-width="1" opacity="0.6"/>
+  <line x1="55" y1="65" x2="73" y2="65" stroke="#F39C12" stroke-width="1" opacity="0.6"/>
+  <line x1="73" y1="65" x2="83" y2="60" stroke="#F39C12" stroke-width="1" opacity="0.6"/>
+</svg>

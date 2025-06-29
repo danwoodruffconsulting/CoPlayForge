@@ -1,0 +1,72 @@
+name: "💡 Feature Request"
+description: "Suggest a new feature or enhancement"
+title: "[Feature]: "
+labels: ["enhancement", "needs-discussion"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a new feature! Please provide as much detail as possible to help us understand your idea.
+
+  - type: dropdown
+    id: feature-type
+    attributes:
+      label: Feature Type
+      description: What type of feature are you suggesting?
+      options:
+        - New Hero Class
+        - Gameplay Mechanic
+        - UI/UX Improvement
+        - Performance Enhancement
+        - AI Behavior
+        - Audio/Visual
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Feature Description
+      description: A clear and concise description of the feature you'd like to see
+      placeholder: "Describe your feature idea..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: What problem does this feature solve? What use case does it address?
+      placeholder: "This feature would help with..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: Describe how you think this feature should work
+      placeholder: "I think it should work like..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternative Solutions
+      description: Have you considered any alternative approaches?
+      placeholder: "Other ways this could be implemented..."
+
+  - type: textarea
+    id: game-design
+    attributes:
+      label: Game Design Impact
+      description: How does this fit with the game's design philosophy of low-stat, synergy-focused gameplay?
+      placeholder: "This aligns with the game design because..."
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Add any other context, mockups, or examples here

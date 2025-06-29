@@ -1,0 +1,136 @@
+[gd_scene load_steps=4 format=3 uid="uid://c2xryj1i6hgkj"]
+
+[ext_resource type="Script" path="res://scripts/Main.gd" id="1_0j7kx"]
+
+[sub_resource type="Environment" id="Environment_1n2wy"]
+background_mode = 1
+background_color = Color(0.3, 0.4, 0.6, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.8, 0.8, 0.9, 1)
+ambient_light_energy = 0.5
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_1a4tw"]
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_0j7kx")
+
+[node name="Environment" type="Node3D" parent="."]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment"]
+transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0, 10, 0)
+light_energy = 1.0
+shadow_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0, 10, 10)
+environment = SubResource("Environment_1n2wy")
+attributes = SubResource("CameraAttributesPractical_1a4tw")
+fov = 45.0
+
+[node name="CameraController" type="Node3D" parent="Camera3D"]
+
+[node name="Battlefield" type="Node3D" parent="."]
+
+[node name="Ground" type="StaticBody3D" parent="Battlefield"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Battlefield/Ground"]
+mesh = BoxMesh.new()
+transform = Transform3D(20, 0, 0, 0, 0.1, 0, 0, 0, 20, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Battlefield/Ground"]
+shape = BoxShape3D.new()
+transform = Transform3D(20, 0, 0, 0, 0.1, 0, 0, 0, 20, 0, 0, 0)
+
+[node name="PlayerUnits" type="Node3D" parent="Battlefield"]
+
+[node name="EnemyUnits" type="Node3D" parent="Battlefield"]
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="MainUI" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="HUD" type="VBoxContainer" parent="UI/MainUI"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -100.0
+offset_right = 300.0
+
+[node name="TurnDisplay" type="Label" parent="UI/MainUI/HUD"]
+layout_mode = 2
+text = "Turn: Player"
+theme_override_font_sizes/font_size = 24
+
+[node name="ActionButtons" type="HBoxContainer" parent="UI/MainUI/HUD"]
+layout_mode = 2
+
+[node name="AttackButton" type="Button" parent="UI/MainUI/HUD/ActionButtons"]
+layout_mode = 2
+text = "Attack"
+
+[node name="DefendButton" type="Button" parent="UI/MainUI/HUD/ActionButtons"]
+layout_mode = 2
+text = "Defend"
+
+[node name="AbilityButton" type="Button" parent="UI/MainUI/HUD/ActionButtons"]
+layout_mode = 2
+text = "Ability"
+
+[node name="EndTurnButton" type="Button" parent="UI/MainUI/HUD/ActionButtons"]
+layout_mode = 2
+text = "End Turn"
+
+[node name="UnitInfo" type="Panel" parent="UI/MainUI"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -300.0
+offset_bottom = 200.0
+
+[node name="InfoContent" type="VBoxContainer" parent="UI/MainUI/UnitInfo"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+
+[node name="UnitName" type="Label" parent="UI/MainUI/UnitInfo/InfoContent"]
+layout_mode = 2
+text = "Unit Name"
+theme_override_font_sizes/font_size = 18
+
+[node name="ClassName" type="Label" parent="UI/MainUI/UnitInfo/InfoContent"]
+layout_mode = 2
+text = "Class"
+
+[node name="StatsContainer" type="VBoxContainer" parent="UI/MainUI/UnitInfo/InfoContent"]
+layout_mode = 2
+
+[node name="HealthBar" type="ProgressBar" parent="UI/MainUI/UnitInfo/InfoContent/StatsContainer"]
+layout_mode = 2
+max_value = 100.0
+value = 75.0
+show_percentage = false
+
+[node name="HealthLabel" type="Label" parent="UI/MainUI/UnitInfo/InfoContent/StatsContainer"]
+layout_mode = 2
+text = "Health: 75/100"
+
+[node name="ManaBar" type="ProgressBar" parent="UI/MainUI/UnitInfo/InfoContent/StatsContainer"]
+layout_mode = 2
+max_value = 50.0
+value = 30.0
+show_percentage = false
+
+[node name="ManaLabel" type="Label" parent="UI/MainUI/UnitInfo/InfoContent/StatsContainer"]
+layout_mode = 2
+text = "Mana: 30/50"

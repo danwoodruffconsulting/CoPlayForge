@@ -1,0 +1,214 @@
+class_name AIBehavior
+extends Resource
+
+@export var behavior_tree: BehaviorTree
+@export var priority_settings: PrioritySettings
+@export var formation_preference: FormationPreference
+@export var aggression_level: float = 0.5  # 0.0 = defensive, 1.0 = aggressive
+@export var support_priority: float = 0.5  # How much to prioritize supporting allies
+
+class PrioritySettings:
+	var attack_priority: float = 1.0
+	var defend_priority: float = 0.5
+	var support_priority: float = 0.7
+	var positioning_priority: float = 0.8
+	var ability_usage_priority: float = 0.9
+
+class FormationPreference:
+	var preferred_distance_from_allies: float = 2.0
+	var preferred_distance_from_enemies: float = 3.0
+	var stay_with_group: bool = true
+	var protect_weak_allies: bool = true
+
+class BehaviorNode:
+	var node_type: NodeType
+	var condition: String
+	var action: String
+	var children: Array[BehaviorNode] = []
+	
+	enum NodeType {
+		SEQUENCE,
+		SELECTOR,
+		CONDITION,
+		ACTION
+	}
+
+func _init():
+	priority_settings = PrioritySettings.new()
+	formation_preference = FormationPreference.new()
+	create_default_behavior_tree()
+
+func create_default_behavior_tree():
+	# Create a simple default behavior tree
+	behavior_tree = BehaviorTree.new()
+	
+	# Root selector node
+	var root = BehaviorNode.new()
+	root.node_type = BehaviorNode.NodeType.SELECTOR
+	
+	# Emergency sequence (low health, retreat)
+	var emergency_seq = BehaviorNode.new()
+	emergency_seq.node_type = BehaviorNode.NodeType.SEQUENCE
+	
+	var low_health_check = BehaviorNode.new()
+	low_health_check.node_type = BehaviorNode.NodeType.CONDITION
+	low_health_check.condition = "health_below_25_percent"
+	
+	var retreat_action = BehaviorNode.new()
+	retreat_action.node_type = BehaviorNode.NodeType.ACTION
+	retreat_action.action = "retreat_to_safety"
+	
+	emergency_seq.children = [low_health_check, retreat_action]
+	
+	# Combat sequence
+	var combat_seq = BehaviorNode.new()
+	combat_seq.node_type = BehaviorNode.NodeType.SEQUENCE
+	
+	var enemy_in_range = BehaviorNode.new()
+	enemy_in_range.node_type = BehaviorNode.NodeType.CONDITION
+	enemy_in_range.condition = "enemy_in_attack_range"
+	
+	var attack_action = BehaviorNode.new()
+	attack_action.node_type = BehaviorNode.NodeType.ACTION
+	attack_action.action = "attack_nearest_enemy"
+	
+	combat_seq.children = [enemy_in_range, attack_action]
+	
+	# Move to position action
+	var move_action = BehaviorNode.new()
+	move_action.node_type = BehaviorNode.NodeType.ACTION
+	move_action.action = "move_to_optimal_position"
+	
+	root.children = [emergency_seq, combat_seq, move_action]
+	behavior_tree.root = root
+
+class BehaviorTree:
+	var root: BehaviorNode
+	
+	func execute(unit: Unit) -> bool:
+		if root:
+			return execute_node(root, unit)
+		return false
+	
+	func execute_node(node: BehaviorNode, unit: Unit) -> bool:
+		match node.node_type:
+			BehaviorNode.NodeType.SEQUENCE:
+				return execute_sequence(node, unit)
+			BehaviorNode.NodeType.SELECTOR:
+				return execute_selector(node, unit)
+			BehaviorNode.NodeType.CONDITION:
+				return evaluate_condition(node.condition, unit)
+			BehaviorNode.NodeType.ACTION:
+				return execute_action(node.action, unit)
+		return false
+	
+	func execute_sequence(node: BehaviorNode, unit: Unit) -> bool:
+		for child in node.children:
+			if not execute_node(child, unit):
+				return false
+		return true
+	
+	func execute_selector(node: BehaviorNode, unit: Unit) -> bool:
+		for child in node.children:
+			if execute_node(child, unit):
+				return true
+		return false
+	
+	func evaluate_condition(condition: String, unit: Unit) -> bool:
+		match condition:
+			"health_below_25_percent":
+				return unit.current_health < unit.get_total_stats().health * 0.25
+			"enemy_in_attack_range":
+				return unit.get_enemies_in_range(unit.get_attack_range()).size() > 0
+			"ally_needs_healing":
+				return unit.get_allies_needing_healing().size() > 0
+			"has_mana_for_ability":
+				return unit.current_mana >= unit.get_best_ability().mana_cost
+			_:
+				return false
+	
+	func execute_action(action: String, unit: Unit) -> bool:
+		match action:
+			"attack_nearest_enemy":
+				return unit.attack_nearest_enemy()
+			"retreat_to_safety":
+				return unit.retreat_to_safety()
+			"heal_ally":
+				return unit.heal_weakest_ally()
+			"cast_ability":
+				return unit.cast_best_ability()
+			"move_to_optimal_position":
+				return unit.move_to_optimal_position()
+			_:
+				return false
+
+func get_action_for_unit(unit: Unit) -> String:
+	if behavior_tree:
+		behavior_tree.execute(unit)
+	
+	# Fallback decision making
+	return decide_action_by_priorities(unit)
+
+func decide_action_by_priorities(unit: Unit) -> String:
+	var scores = {}
+	
+	# Calculate scores for different actions
+	scores["attack"] = calculate_attack_score(unit)
+	scores["defend"] = calculate_defend_score(unit)
+	scores["support"] = calculate_support_score(unit)
+	scores["move"] = calculate_movement_score(unit)
+	
+	# Find highest scoring action
+	var best_action = "move"
+	var best_score = 0.0
+	
+	for action in scores:
+		if scores[action] > best_score:
+			best_score = scores[action]
+			best_action = action
+	
+	return best_action
+
+func calculate_attack_score(unit: Unit) -> float:
+	var enemies_in_range = unit.get_enemies_in_range(unit.get_attack_range())
+	if enemies_in_range.is_empty():
+		return 0.0
+	
+	var score = priority_settings.attack_priority * aggression_level
+	
+	# Bonus for weak enemies
+	for enemy in enemies_in_range:
+		if enemy.current_health < enemy.get_total_stats().health * 0.3:
+			score += 0.5
+	
+	return score
+
+func calculate_defend_score(unit: Unit) -> float:
+	var score = priority_settings.defend_priority
+	
+	# Higher score if low health
+	if unit.current_health < unit.get_total_stats().health * 0.5:
+		score += 0.5
+	
+	# Higher score if many enemies nearby
+	var nearby_enemies = unit.get_enemies_in_range(5.0)
+	score += nearby_enemies.size() * 0.1
+	
+	return score
+
+func calculate_support_score(unit: Unit) -> float:
+	var allies_needing_help = unit.get_allies_needing_healing()
+	if allies_needing_help.is_empty():
+		return 0.0
+	
+	var score = priority_settings.support_priority * support_priority
+	
+	# Higher score for critically injured allies
+	for ally in allies_needing_help:
+		if ally.current_health < ally.get_total_stats().health * 0.25:
+			score += 0.7
+	
+	return score
+
+func calculate_movement_score(unit: Unit) -> float:
+	return priority_settings.positioning_priority * 0.3

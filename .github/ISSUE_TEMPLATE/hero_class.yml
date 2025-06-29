@@ -1,0 +1,92 @@
+name: "🎯 Hero Class Suggestion"
+description: "Suggest a new hero class for the game"
+title: "[Hero Class]: "
+labels: ["hero-class", "enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Suggest a new hero class for CoPlayForge! We're aiming for 100 unique classes, so creativity is welcome.
+
+  - type: input
+    id: class-name
+    attributes:
+      label: Class Name
+      description: What should this hero class be called?
+      placeholder: "e.g., Storm Weaver, Crystal Guardian, etc."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: class-role
+    attributes:
+      label: Primary Role
+      description: What is the main role of this class?
+      options:
+        - Tank/Defender
+        - Damage Dealer (Melee)
+        - Damage Dealer (Ranged)
+        - Support/Healer
+        - Crowd Control
+        - Summoner
+        - Hybrid
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Class Description
+      description: Describe the theme and concept of this hero class
+      placeholder: "A mystical warrior who manipulates..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: abilities
+    attributes:
+      label: Abilities (1-3)
+      description: |
+        List 1-3 unique abilities for this class. Remember the low-stat philosophy - abilities should be tactical rather than high-damage.
+      placeholder: |
+        1. **Ability Name**: Description of what it does
+        2. **Ability Name**: Description of what it does
+        3. **Ability Name**: Description of what it does
+    validations:
+      required: true
+
+  - type: textarea
+    id: stats
+    attributes:
+      label: Suggested Base Stats
+      description: |
+        Suggest base stats following the low-stat design (around 20 HP, 5 ATK, 3 DEF). Consider the class role.
+      placeholder: |
+        Health: 20
+        Mana: 10
+        Attack: 5
+        Defense: 3
+        Speed: 4
+        Accuracy: 75
+    validations:
+      required: true
+
+  - type: textarea
+    id: synergies
+    attributes:
+      label: Synergy Relationships
+      description: Which existing classes would this work well with? What synergy bonuses make sense?
+      placeholder: "Works well with Mages and Elementalists. Could provide..."
+
+  - type: textarea
+    id: tactical-role
+    attributes:
+      label: Tactical Role
+      description: How would this class fit into battle formations and group tactics?
+      placeholder: "Best positioned in the back line, supports front-line fighters by..."
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Notes
+      description: Any other ideas, lore, or design considerations?
