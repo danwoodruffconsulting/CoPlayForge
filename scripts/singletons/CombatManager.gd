@@ -76,6 +76,10 @@ func end_current_turn():
 	if GameManager.game_state == GameManager.GameState.COMBAT:
 		process_next_turn()
 
+# Public method for UI to call
+func end_turn():
+	end_current_turn()
+
 func check_combat_end():
 	var alive_players = player_units.filter(func(unit): return unit.is_alive())
 	var alive_enemies = enemy_units.filter(func(unit): return unit.is_alive())
