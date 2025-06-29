@@ -1,6 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://c2xryj1i6hgkj"]
+[gd_scene load_steps=4 format=3 uid="uid://cmp4g8y7n2p4h"]
 
-[ext_resource type="Script" path="res://scripts/Main.gd" id="1_0j7kx"]
+[ext_resource type="Script" uid="uid://cjqo2xoqak20b" path="res://scripts/Main.gd" id="1_0j7kx"]
 
 [sub_resource type="Environment" id="Environment_1n2wy"]
 background_mode = 1
@@ -36,25 +36,29 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="MainUI" type="Control" parent="UI"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="HUD" type="Control" parent="UI/MainUI"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="TurnDisplay" type="Label" parent="UI/MainUI/HUD"]
 layout_mode = 0
 anchor_left = 0.5
-anchor_top = 0.0
 anchor_right = 0.5
-anchor_bottom = 0.0
 offset_left = -100.0
 offset_top = 20.0
 offset_right = 100.0
@@ -64,7 +68,6 @@ horizontal_alignment = 1
 
 [node name="ActionButtons" type="HBoxContainer" parent="UI/MainUI/HUD"]
 layout_mode = 0
-anchor_left = 0.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -94,8 +97,6 @@ text = "End Turn"
 
 [node name="UnitInfo" type="Panel" parent="UI/MainUI"]
 layout_mode = 0
-anchor_left = 0.0
-anchor_top = 0.0
 anchor_right = 0.3
 anchor_bottom = 0.5
 offset_left = 20.0

@@ -194,15 +194,15 @@ func _on_unit_died(unit: Unit):
 	print("Unit died: ", unit.hero_data.hero_name if unit.hero_data else "Enemy")
 
 func _on_attack_button_pressed():
-	if selected_unit:
+	if selected_unit and selected_unit.hero_data:
 		print("Attack mode activated for " + selected_unit.hero_data.hero_name)
 
 func _on_defend_button_pressed():
-	if selected_unit:
+	if selected_unit and selected_unit.hero_data:
 		print(selected_unit.hero_data.hero_name + " defends")
 
 func _on_ability_button_pressed():
-	if selected_unit:
+	if selected_unit and selected_unit.hero_data:
 		print("Ability menu for " + selected_unit.hero_data.hero_name)
 
 func _on_end_turn_button_pressed():

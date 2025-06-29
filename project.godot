@@ -12,7 +12,7 @@ config_version=5
 
 config/name="CoPlayForge - Tactical RPG"
 config/description="A tactical RPG inspired by Shining Force with low-stat characters that rely on group synergy and AI-driven behavior"
-run/main_scene="res://scenes/Main.tscn"
+run/main_scene="res://scenes/Main_fixed.tscn"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 

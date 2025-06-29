@@ -36,9 +36,9 @@ func create_unit_components():
 	mesh_instance.mesh = capsule_mesh
 	add_child(mesh_instance)
 	
-	# Create a basic material with color based on unit type
+	# Create a basic material (color will be set later when hero_data is available)
 	var material = StandardMaterial3D.new()
-	material.albedo_color = get_unit_color()
+	material.albedo_color = Color.GRAY  # Default color until hero_data is set
 	material.metallic = 0.2
 	material.roughness = 0.8
 	mesh_instance.material_override = material
@@ -169,6 +169,9 @@ func setup_from_hero_data(data: HeroData):
 	current_mana = stats.mana
 	ai_behavior = data.ai_behavior
 	
+	# Update unit color based on hero class
+	update_unit_color()
+	
 	# Update UI
 	update_health_bar()
 	update_mana_bar()
@@ -179,6 +182,9 @@ func setup_from_enemy_data(data: EnemyData):
 	current_health = stats.health
 	current_mana = stats.mana
 	is_player_controlled = false
+	
+	# Update unit color (enemies are red)
+	update_unit_color()
 	
 	update_health_bar()
 	update_mana_bar()
@@ -540,6 +546,9 @@ func enter_defensive_stance():
 	# This could be implemented as a status effect
 	pass
 
+func is_alive() -> bool:
+	return current_health > 0
+
 func can_attack() -> bool:
 	# Check if unit can attack (not stunned, has mana for abilities, etc.)
 	return current_health > 0 and not has_status_effect("stunned")
@@ -549,3 +558,10 @@ func has_status_effect(effect_name: String) -> bool:
 		if effect.effect_name == effect_name:
 			return true
 	return false
+
+func update_unit_color():
+	# Update the unit's material color based on hero class or enemy status
+	if mesh_instance and mesh_instance.material_override:
+		var material = mesh_instance.material_override as StandardMaterial3D
+		if material:
+			material.albedo_color = get_unit_color()

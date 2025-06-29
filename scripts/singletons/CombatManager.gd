@@ -105,10 +105,11 @@ func calculate_synergy_bonuses(unit: Unit) -> Dictionary:
 	
 	# Calculate class-specific synergy bonuses
 	for ally in nearby_allies:
-		var synergy = HeroClassManager.get_synergy_bonus(unit.hero_class, ally.hero_class)
-		if synergy:
-			for stat in synergy:
-				bonuses[stat] = bonuses.get(stat, 0) + synergy[stat]
+		if unit.hero_data and ally.hero_data:
+			var synergy = HeroClassManager.get_synergy_bonus(unit.hero_data.hero_class, ally.hero_data.hero_class)
+			if synergy:
+				for stat in synergy:
+					bonuses[stat] = bonuses.get(stat, 0) + synergy[stat]
 	
 	return bonuses
 
