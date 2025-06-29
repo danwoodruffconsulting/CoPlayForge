@@ -14,7 +14,7 @@ extends Resource
 func _init():
 	pass
 
-func duplicate() -> Stats:
+func duplicate_stats() -> Stats:
 	var new_stats = Stats.new()
 	new_stats.health = health
 	new_stats.mana = mana

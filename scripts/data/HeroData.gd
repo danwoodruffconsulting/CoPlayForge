@@ -8,7 +8,7 @@ extends Resource
 @export var base_stats: Stats
 @export var equipment: Equipment
 @export var abilities: Array[Ability] = []
-@export var ai_behavior: AIBehavior
+var ai_behavior: AIBehavior  # Can't export custom classes
 
 # Low stat design - these are the base values at level 1
 @export var base_health: int = 20
@@ -24,7 +24,7 @@ func _init():
 	ai_behavior = AIBehavior.new()
 
 func get_total_stats() -> Stats:
-	var total = base_stats.duplicate()
+	var total = base_stats.duplicate_stats()
 	
 	# Add equipment bonuses
 	if equipment:

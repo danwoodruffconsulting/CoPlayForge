@@ -19,8 +19,6 @@ enum GameState {
 	VICTORY
 }
 
-class_name GameManager
-
 func _ready():
 	# Initialize game systems
 	player_data = PlayerData.new()

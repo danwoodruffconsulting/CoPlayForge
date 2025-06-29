@@ -10,8 +10,6 @@ extends Node3D
 var selected_unit: Unit
 var camera_controller: CameraController
 
-class_name Main
-
 func _ready():
 	# Initialize the game
 	setup_camera_controller()
@@ -21,7 +19,6 @@ func _ready():
 func setup_camera_controller():
 	camera_controller = CameraController.new()
 	camera_controller.setup(camera)
-	add_child(camera_controller)
 
 func setup_ui_connections():
 	# Connect UI buttons
@@ -88,13 +85,7 @@ func spawn_unit(unit: Unit, is_player: bool, index: int):
 	# Connect unit signals
 	unit.unit_died.connect(_on_unit_died)
 	
-	# Make unit selectable for player units
-	if is_player:
-		unit.input_event.connect(_on_unit_clicked.bind(unit))
-
-func _on_unit_clicked(unit: Unit, camera: Camera3D, event: InputEvent, position: Vector3, normal: Vector3, shape_idx: int):
-	if event is InputEventMouseButton and event.pressed:
-		select_unit(unit)
+	# Make unit selectable for player units - we'll handle this through global input
 
 func select_unit(unit: Unit):
 	# Deselect previous unit
@@ -111,7 +102,12 @@ func deselect_unit(unit: Unit):
 func highlight_unit(unit: Unit):
 	# Add visual highlight to selected unit
 	if unit.mesh_instance:
-		unit.mesh_instance.material_override = preload("res://materials/highlight_material.tres")
+		# Create a simple colored material for highlighting
+		var highlight_material = StandardMaterial3D.new()
+		highlight_material.albedo_color = Color.YELLOW
+		highlight_material.emission_enabled = true
+		highlight_material.emission = Color.YELLOW * 0.3
+		unit.mesh_instance.material_override = highlight_material
 
 func remove_unit_highlight(unit: Unit):
 	if unit.mesh_instance:

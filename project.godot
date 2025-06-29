@@ -21,6 +21,7 @@ config/icon="res://icon.svg"
 GameManager="*res://scripts/singletons/GameManager.gd"
 CombatManager="*res://scripts/singletons/CombatManager.gd"
 AudioManager="*res://scripts/singletons/AudioManager.gd"
+HeroClassManager="*res://scripts/singletons/HeroClassManager.gd"
 
 [display]
 

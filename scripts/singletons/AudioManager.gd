@@ -7,8 +7,6 @@ var master_volume: float = 1.0
 var music_volume: float = 0.7
 var sfx_volume: float = 0.8
 
-class_name AudioManager
-
 func _ready():
 	# Create music player
 	music_player = AudioStreamPlayer.new()
@@ -83,18 +81,21 @@ func set_sfx_volume(volume: float):
 
 # Chiptune-style audio effects
 func play_combat_sfx(effect_type: String):
-	match effect_type:
-		"sword_hit":
-			play_sfx(preload("res://audio/sfx/sword_hit.ogg"))
-		"magic_cast":
-			play_sfx(preload("res://audio/sfx/magic_cast.ogg"))
-		"bow_shot":
-			play_sfx(preload("res://audio/sfx/bow_shot.ogg"))
-		"heal":
-			play_sfx(preload("res://audio/sfx/heal.ogg"))
-		"death":
-			play_sfx(preload("res://audio/sfx/death.ogg"))
-		"level_up":
-			play_sfx(preload("res://audio/sfx/level_up.ogg"))
-		_:
-			print("Unknown SFX type: ", effect_type)
+	# For now, just print the effect type since we don't have audio files yet
+	print("Playing SFX: ", effect_type)
+	# TODO: Add actual audio files and uncomment these lines:
+	# match effect_type:
+	#	"sword_hit":
+	#		play_sfx(preload("res://audio/sfx/sword_hit.ogg"))
+	#	"magic_cast":
+	#		play_sfx(preload("res://audio/sfx/magic_cast.ogg"))
+	#	"bow_shot":
+	#		play_sfx(preload("res://audio/sfx/bow_shot.ogg"))
+	#	"heal":
+	#		play_sfx(preload("res://audio/sfx/heal.ogg"))
+	#	"death":
+	#		play_sfx(preload("res://audio/sfx/death.ogg"))
+	#	"level_up":
+	#		play_sfx(preload("res://audio/sfx/level_up.ogg"))
+	#	_:
+	#		print("Unknown SFX type: ", effect_type)

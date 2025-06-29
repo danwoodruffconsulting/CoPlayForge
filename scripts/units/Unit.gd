@@ -14,15 +14,49 @@ var status_effects: Array[StatusEffect] = []
 var ability_cooldowns: Dictionary = {}
 var ai_behavior: AIBehavior
 
-@onready var mesh_instance: MeshInstance3D = $MeshInstance3D
-@onready var animation_player: AnimationPlayer = $AnimationPlayer
-@onready var ui_canvas: Control = $UICanvas
-@onready var health_bar: ProgressBar = $UICanvas/HealthBar
-@onready var mana_bar: ProgressBar = $UICanvas/ManaBar
+var mesh_instance: MeshInstance3D
+var animation_player: AnimationPlayer
+var ui_canvas: Control
+var health_bar: ProgressBar
+var mana_bar: ProgressBar
 
 func _ready():
+	create_unit_components()
 	if hero_data:
 		setup_from_hero_data(hero_data)
+
+func create_unit_components():
+	# Create mesh instance with a simple box
+	mesh_instance = MeshInstance3D.new()
+	var box_mesh = BoxMesh.new()
+	box_mesh.size = Vector3(1, 2, 1)  # Character-like proportions
+	mesh_instance.mesh = box_mesh
+	add_child(mesh_instance)
+	
+	# Create a collision shape
+	var collision_shape = CollisionShape3D.new()
+	var shape = BoxShape3D.new()
+	shape.size = Vector3(1, 2, 1)
+	collision_shape.shape = shape
+	add_child(collision_shape)
+	
+	# Create UI canvas for health/mana bars
+	ui_canvas = Control.new()
+	ui_canvas.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+	ui_canvas.position = Vector2(0, -50)  # Above the character (in screen coordinates)
+	add_child(ui_canvas)
+	
+	# Create health bar
+	health_bar = ProgressBar.new()
+	health_bar.size = Vector2(100, 10)
+	health_bar.position = Vector2(-50, 0)
+	ui_canvas.add_child(health_bar)
+	
+	# Create mana bar
+	mana_bar = ProgressBar.new()
+	mana_bar.size = Vector2(100, 8)
+	mana_bar.position = Vector2(-50, 12)
+	ui_canvas.add_child(mana_bar)
 
 func setup_from_hero_data(data: HeroData):
 	hero_data = data

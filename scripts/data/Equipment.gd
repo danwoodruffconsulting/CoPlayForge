@@ -1,9 +1,19 @@
 class_name Equipment
 extends Resource
 
-@export var weapon: EquipmentItem
-@export var armor: EquipmentItem
-@export var accessory: EquipmentItem
+class EquipmentItem:
+	var item_name: String
+	var stat_bonuses: Stats
+	var special_effects: Array[String] = []
+	var description: String
+	
+	func _init():
+		stat_bonuses = Stats.new()
+
+# Don't export complex types that aren't resources
+var weapon: EquipmentItem
+var armor: EquipmentItem
+var accessory: EquipmentItem
 
 func _init():
 	pass
@@ -21,11 +31,3 @@ func get_total_stats() -> Stats:
 		total.add_stats(accessory.stat_bonuses)
 	
 	return total
-
-class EquipmentItem:
-	var item_name: String
-	var stat_bonuses: Stats
-	var special_effects: Array[String] = []
-	
-	func _init():
-		stat_bonuses = Stats.new()

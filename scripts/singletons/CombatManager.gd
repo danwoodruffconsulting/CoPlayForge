@@ -9,10 +9,7 @@ var active_units: Array[Unit] = []
 var player_units: Array[Unit] = []
 var enemy_units: Array[Unit] = []
 var current_turn_unit: Unit
-var combat_grid: CombatGrid
 var turn_queue: Array[Unit] = []
-
-class_name CombatManager
 
 func _ready():
 	pass

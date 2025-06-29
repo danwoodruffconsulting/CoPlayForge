@@ -5,7 +5,7 @@ extends Resource
 @export var level: int = 1
 @export var base_stats: Stats
 @export var abilities: Array[Ability] = []
-@export var ai_behavior: AIBehavior
+var ai_behavior: AIBehavior  # Can't export custom classes
 
 func _init():
 	base_stats = Stats.new()
@@ -13,7 +13,7 @@ func _init():
 	ai_behavior.aggression_level = 0.8  # Enemies are more aggressive
 
 func get_total_stats() -> Stats:
-	var total = base_stats.duplicate()
+	var total = base_stats.duplicate_stats()
 	
 	# Add level bonuses
 	var level_bonus = (level - 1) * 2
